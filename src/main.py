@@ -1,7 +1,18 @@
 import numpy as np
 import cv2
+import pickle
 
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
+recognizer = cv2.face.LBPHFaceRecognizer.create()
+recognizer.read("trainer.yml")
+
+    
+first_labels = {}
+with open("labels.pickle", "rb") as f: #save the label ids
+    first_labels = pickle.load(f)
+    labels = {v:k for k, v in first_labels.items()} #inverting the labels.
+
+print(labels)
 
 cap = cv2.VideoCapture(0)
 
@@ -11,13 +22,16 @@ while(True):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # a gray frame (a must for opencv facial recognition to work)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5) # (coordinates for my face (x,y,w,h))
     for (x,y,w,h) in faces:
-        print(x,y,w,h)
-
+        #print(x,y,w,h)
         #---------saving the last frame as an image----------#
         # TODO: save multiple images of different faces, differ coordinates from two faces. 
         # TODO: Recognize a face? deep learned model - keras, tensorflow, pytorch, scikit learn
-               
+        
         roi_gray = gray[y:y+h, x:x+w] #region of interest gray
+        id_, conf  = recognizer.predict(roi_gray) # label, confidence
+        #print(conf)
+        if conf>= 80 and conf<=100:
+            print(conf, " :",  labels[id_])
         img_item = "my_image.png"
         cv2.imwrite(img_item, roi_gray)
 
