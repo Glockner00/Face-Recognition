@@ -29,8 +29,8 @@ while(True):
         
         roi_gray = gray[y:y+h, x:x+w] #region of interest gray
         id_, conf  = recognizer.predict(roi_gray) # label, confidence
-        #print(conf)
-        if conf>=70:
+        print(conf, " : ", id_)
+        if conf>= 45 and conf<=75:
             print(conf, " : ",  labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
             name = labels[id_].replace("-", " ")

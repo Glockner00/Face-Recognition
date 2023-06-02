@@ -27,7 +27,9 @@ for root, dirs, files in os.walk(IMAGE_DIR):
             id_ = label_ids[label]
             
             pil_image = Image.open(path).convert("L") # saving the image from the path and converting to grayscale.
-            image_array = np.array(pil_image, "uint8") # image(pixel values) into numpy array, type uint8
+            size = (550, 550)
+            final_image = pil_image.resize(size, Image.ANTIALIAS)
+            image_array = np.array(final_image, "uint8") # image(pixel values) into numpy array, type uint8
             faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5) #detector 
             for x,y,w,h in faces:
                 roi = image_array[y:y+h,x:x+w]

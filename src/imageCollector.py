@@ -24,17 +24,15 @@ while(True):
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5) 
     
     for (x,y,w,h) in faces:
-        roi_color = frame[y:y+h, x:x+w]
         img_item = os.path.join(data_dir, f"{int(count/10)}.png")
-
         if (count%10)==0:
-            cv2.imwrite(img_item, roi_color)
+            cv2.imwrite(img_item, frame)
         count+=1
-
     cv2.imshow('facecam', frame) 
+
     if cv2.waitKey(20) & 0xFF == ord('q'): 
         break
-    elif (count==60):
+    elif (count==510):
         break
 
 cap.release()
