@@ -30,8 +30,12 @@ while(True):
         roi_gray = gray[y:y+h, x:x+w] #region of interest gray
         id_, conf  = recognizer.predict(roi_gray) # label, confidence
         #print(conf)
-        if conf>= 80 and conf<=100:
-            print(conf, " :",  labels[id_])
+        if conf>=70:
+            print(conf, " : ",  labels[id_])
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            name = labels[id_].replace("-", " ")
+            color = (255,255,255)
+            cv2.putText(frame, name, (x,y+h+25), font, 1, color, 2, cv2.LINE_AA)
         img_item = "my_image.png"
         cv2.imwrite(img_item, roi_gray)
 
