@@ -1,3 +1,9 @@
+"""
+put all your images in the image folder. Every person should have their own folder
+labeld as firstname-lastname. Every image should be named 1.png ... n.png (n=1,2,3....)
+For the best result use as many images as possible per person and do not crop the photos.
+"""
+
 import os
 from PIL import Image
 import numpy as np

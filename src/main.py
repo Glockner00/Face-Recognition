@@ -1,3 +1,8 @@
+"""
+Main program. Collect images and run myTrainer.py before running main.
+Works with multiple faces in a single frame.
+quit with q.
+"""
 import numpy as np
 import cv2
 import pickle
@@ -6,32 +11,26 @@ face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2
 recognizer = cv2.face.LBPHFaceRecognizer.create()
 recognizer.read("trainer.yml")
 
-    
 first_labels = {}
 with open("labels.pickle", "rb") as f: #save the label ids
     first_labels = pickle.load(f)
     labels = {v:k for k, v in first_labels.items()} #inverting the labels.
 
-print(labels)
-
 cap = cv2.VideoCapture(0)
-
 while(True):
     ret, frame = cap.read() #capture frame by frame
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # a gray frame (a must for opencv facial recognition to work)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5) # (coordinates for my face (x,y,w,h))
     for (x,y,w,h) in faces:
-        #print(x,y,w,h)
         #---------saving the last frame as an image----------#
         # TODO: save multiple images of different faces, differ coordinates from two faces. 
         # TODO: Recognize a face? deep learned model - keras, tensorflow, pytorch, scikit learn
         
         roi_gray = gray[y:y+h, x:x+w] #region of interest gray
         id_, conf  = recognizer.predict(roi_gray) # label, confidence
-        print(conf, " : ", id_)
-        if conf>= 45 and conf<=75:
-            print(conf, " : ",  labels[id_])
+        print(int(conf), " : ", labels[id_].replace("-", " "))
+        if conf>= 45:
             font = cv2.FONT_HERSHEY_SIMPLEX
             name = labels[id_].replace("-", " ")
             color = (255,255,255)

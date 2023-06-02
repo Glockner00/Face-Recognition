@@ -1,7 +1,7 @@
 """
 This is a program for collecting data (images) for the cascade classifier trainer.
+The program collects and saves 50 images to the image folder.
 Enter name as follows: "firstname-lastname"
-Look straight into the camera, and do different expressions.
 """
 import numpy as np
 import cv2
