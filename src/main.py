@@ -24,17 +24,14 @@ while(True):
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5) # (coordinates for my face (x,y,w,h))
     for (x,y,w,h) in faces:
         #---------saving the last frame as an image----------#
-        # TODO: save multiple images of different faces, differ coordinates from two faces. 
-        # TODO: Recognize a face? deep learned model - keras, tensorflow, pytorch, scikit learn
-        
         roi_gray = gray[y:y+h, x:x+w] #region of interest gray
         id_, conf  = recognizer.predict(roi_gray) # label, confidence
         print(int(conf), " : ", labels[id_].replace("-", " "))
-        if conf>= 45:
+        if conf>= 40:
             font = cv2.FONT_HERSHEY_SIMPLEX
             name = labels[id_].replace("-", " ")
             color = (255,255,255)
-            cv2.putText(frame, name, (x,y+h+25), font, 1, color, 2, cv2.LINE_AA)
+            cv2.putText(frame, name.title(), (x,y+h+25), font, 1, color, 2, cv2.LINE_AA)
         img_item = "my_image.png"
         cv2.imwrite(img_item, roi_gray)
 
