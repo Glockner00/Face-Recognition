@@ -1,6 +1,6 @@
 """
 This is a program for collecting data (images) for the cascade classifier trainer.
-The program collects and saves 50 images to the image folder.
+The program collects and saves 100 images to the image folder.
 Enter name as follows: "firstname-lastname"
 """
 import numpy as np
@@ -12,10 +12,13 @@ face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGE_DIR = os.path.join(BASE_DIR, "images")
 data_dir = os.path. join(IMAGE_DIR, inp)
-count=1
 
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)
+
+arr = os.listdir(data_dir)
+count = len(arr) + 1
+start_count = count
 
 cap = cv2.VideoCapture(0)
 while(True):
@@ -24,15 +27,14 @@ while(True):
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5) 
     
     for (x,y,w,h) in faces:
-        img_item = os.path.join(data_dir, f"{int(count/10)}.png")
-        if (count%10)==0:
-            cv2.imwrite(img_item, frame)
+        img_item = os.path.join(data_dir, f"{int(count)}.png")
+        cv2.imwrite(img_item, frame)
         count+=1
     cv2.imshow('facecam', frame) 
 
     if cv2.waitKey(20) & 0xFF == ord('q'): 
         break
-    elif (count==510):
+    elif (count==start_count+301):
         break
 
 cap.release()

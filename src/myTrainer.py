@@ -36,7 +36,7 @@ for root, dirs, files in os.walk(IMAGE_DIR):
             size = (550, 550)
             final_image = pil_image.resize(size, Image.ANTIALIAS)
             image_array = np.array(final_image, "uint8") # image(pixel values) into numpy array, type uint8
-            faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5) #detector 
+            faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5) #detector, standrad values.
             for x,y,w,h in faces:
                 roi = image_array[y:y+h,x:x+w]
                 x_train.append(roi)
